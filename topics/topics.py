@@ -35,5 +35,24 @@ def bow2tfidfvec(bow_list) :
 
     return X
 
+def get_gensim_tfidf(token_list, min_count = 3) :
+    '''
+    input : a list of token lists
+    output : gensim.corpora.Dictionary, a list of TfIdfvectors
+    '''
+    word_counter = Counter()
+    for tokens in token_list :
+        word_counter.update(tokens)
+    dictionary_ko = corpora.Dictionary(token_list)
+    removal_word_idxs = {
+            dictionary_ko.token2id[word] for word, count in word_counter.items()
+            if count < min_count
+            }
+    dictionary_ko.filter_tokens(removal_word_idxs)
+    dictionary_ko.compactify()
 
+    tf_ko = [(idx, word_counter.get(word, 0)) for word, idx in dictionary_ko.toekn2id.items()]
+    tfidf_model_ko = models.TfidfModel(tf_ko)
+    tfidf_ko = tfidf_model_ko[tf_ko]
 
+    return dictionary_ko, tfidf_ko
