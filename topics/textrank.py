@@ -10,13 +10,6 @@ import math
 import os.path
 import sys
 
-items = os.path.abspath(__file__).rsplit("/")
-dir_path = '/'
-for item in items:
-    if item == 'Frism': break
-    dir_path = os.path.join(dir_path, item)
-sys.path.insert(1, dir_path)
-
 from nltk import pos_tag, word_tokenize
 from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
